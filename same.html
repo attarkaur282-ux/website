@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unlimited Website Hosting - No Limits!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-100px) rotate(180deg); }
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #00d4ff, #ff00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .main-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            padding: 40px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .step {
+            margin-bottom: 30px;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: linear-gradient(90deg, #00d4ff, #0066ff);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .step-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .upload-area {
+            border: 3px dashed rgba(0, 212, 255, 0.5);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .upload-area:hover, .upload-area.dragover {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.1);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .input-group input {
+            flex: 2;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            color: white;
+            font-size: 18px;
+            font-family: monospace;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+
+        .domain-select {
+            padding: 15px 20px;
+            background: rgba(0, 212, 255, 0.2);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .ok-btn {
+            background: linear-gradient(90deg, #00ff88, #00d4ff);
+            border: none;
+            padding: 18px 50px;
+            border-radius: 50px;
+            color: #000;
+            font-size: 20px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 20px;
+            letter-spacing: 2px;
+        }
+
+        .ok-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.4);
+        }
+
+        .ok-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #00ff88);
+            transition: width 0.3s;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+
+        .timer {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #00d4ff;
+        }
+
+        .success-card {
+            background: rgba(0, 255, 136, 0.15);
+            border: 2px solid #00ff88;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+            animation: slideUp 0.5s;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .generated-url {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            word-break: break-all;
+        }
+
+        .generated-url a {
+            color: #00d4ff;
+            font-size: 22px;
+            text-decoration: none;
+        }
+
+        .copy-btn {
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid #00d4ff;
+            padding: 10px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            color: #00d4ff;
+            margin: 5px;
+            font-size: 14px;
+        }
+
+        .websites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .site-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .site-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d4ff;
+        }
+
+        .site-url {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-size: 12px;
+            word-break: break-all;
+        }
+
+        .preview-frame {
+            width: 100%;
+            height: 180px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+            margin-top: 10px;
+        }
+
+        .delete-btn {
+            background: rgba(255, 85, 85, 0.2);
+            border: 1px solid #ff5555;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #ff5555;
+            margin-top: 10px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 25px;
+            border-radius: 12px;
+            display: none;
+            z-index: 1000;
+            font-weight: 600;
+            animation: slideInRight 0.3s;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .file-list {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .file-list span {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 5px;
+            font-size: 12px;
+        }
+
+        .sample-template {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .sample-template button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .info-badge {
+            background: rgba(0, 255, 136, 0.2);
+            border: 1px solid #00ff88;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            color: white;
+            font-family: monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px;
+            }
+            .logo {
+                font-size: 22px;
+            }
+            .main-card {
+                padding: 25px;
+            }
+            .input-group {
+                flex-direction: column;
+            }
+            .ok-btn {
+                padding: 15px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation" id="bgAnimation"></div>
+
+    <nav class="navbar">
+        <div class="logo">🚀 UNLIMITED WEBSITE HOSTING</div>
+        <div class="subtitle">No limits on file size | Store as many websites as you want!</div>
+    </nav>
+
+    <div class="container">
+        <div class="main-card">
+            <!-- Step 1: Choose Website Name -->
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">1</span> Choose Your Website URL
+                </div>
+                <div class="input-group">
+                    <input type="text" id="websiteName" placeholder="my-awesome-site" autocomplete="off">
+                    <select id="domainSelect" class="domain-select">
+                        <option value=".webpage.one">.webpage.one</option>
+                        <option value=".site4u.com">.site4u.com</option>
+                        <option value=".hostfree.com">.hostfree.com</option>
+                        <option value=".myweb.com">.myweb.com</option>
+                        <option value=".page.link">.page.link</option>
+                        <option value=".cloud.com">.cloud.com</option>
+                    </select>
+                </div>
+                <div id="urlStatus" style="margin-top: 10px; font-size: 14px;"></div>
+            </div>
+
+            <!-- Step 2: Upload Files (Multiple files supported) -->
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">2</span> Upload Your Website Files (Unlimited Size)
+                </div>
+                <div class="upload-area" id="uploadArea"
+                     ondragover="handleDragOver(event)"
+                     ondragleave="handleDragLeave(event)"
+                     ondrop="handleDrop(event)">
+                    <div class="upload-icon">📁📤</div>
+                    <h3>Drag & Drop Files/Folder Here</h3>
+                    <p style="color: #aaa; margin: 10px 0;">HTML, CSS, JS, images, fonts - any file type!</p>
+                    <button class="copy-btn" onclick="document.getElementById('fileInput').click()" style="background: #00d4ff20;">📂 Browse Files</button>
+                    <input type="file" id="fileInput" multiple style="display: none" onchange="handleFileSelect(this.files)">
+                </div>
+                <div id="fileList" class="file-list"></div>
+                <div class="sample-template">
+                    <p>✨ No files? Try our sample template!</p>
+                    <button onclick="loadSampleTemplate()">📄 Load Sample Website</button>
+                </div>
+                <div class="info-badge">
+                    💾 Using IndexedDB - Store unlimited files! (Up to browser limit, usually 500MB+)
+                </div>
+            </div>
+
+            <!-- Step 3: Publish Button -->
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">3</span> Publish Website
+                </div>
+                <button class="ok-btn" id="publishBtn" onclick="publishWebsite()">✅ OK - PUBLISH WEBSITE</button>
+            </div>
+
+            <!-- Progress -->
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">Processing...</div>
+                <div class="timer" id="timer"></div>
+            </div>
+
+            <!-- Success Message -->
+            <div id="successCard" style="display: none;"></div>
+        </div>
+
+        <!-- Live Websites -->
+        <h2 style="margin: 50px 0 20px;">🌟 Your Live Websites</h2>
+        <div id="websitesList" class="websites-grid"></div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // ============== INDEXEDDB SETUP - NO LIMITS! ==============
+        const DB_NAME = 'UnlimitedWebsiteHostingDB';
+        const DB_VERSION = 1;
+        const WEBSITES_STORE = 'websites';
+        const FILES_STORE = 'files';
+        
+        let db = null;
+        let selectedFiles = [];
+        let selectedFileContents = [];
+
+        // Open IndexedDB
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                
+                request.onerror = () => reject(request.error);
+                request.onsuccess = () => {
+                    db = request.result;
+                    resolve(db);
+                };
+                
+                request.onupgradeneeded = (event) => {
+                    const database = event.target.result;
+                    if (!database.objectStoreNames.contains(WEBSITES_STORE)) {
+                        database.createObjectStore(WEBSITES_STORE, { keyPath: 'id' });
+                    }
+                    if (!database.objectStoreNames.contains(FILES_STORE)) {
+                        database.createObjectStore(FILES_STORE, { keyPath: 'id' });
+                    }
+                };
+            });
+        }
+
+        // Save website to IndexedDB
+        async function saveWebsiteToDB(id, slug, domain, fullUrl, files, htmlContent) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([WEBSITES_STORE, FILES_STORE], 'readwrite');
+                const websiteStore = transaction.objectStore(WEBSITES_STORE);
+                const filesStore = transaction.objectStore(FILES_STORE);
+                
+                // Save website metadata
+                const websiteData = {
+                    id: id,
+                    slug: slug,
+                    domain: domain,
+                    fullUrl: fullUrl,
+                    hasHtml: !!htmlContent,
+                    createdAt: new Date().toISOString()
+                };
+                websiteStore.put(websiteData);
+                
+                // Save files
+                const filesData = {
+                    id: id,
+                    files: files,
+                    htmlContent: htmlContent,
+                    lastAccessed: new Date().toISOString()
+                };
+                filesStore.put(filesData);
+                
+                transaction.oncomplete = () => resolve(true);
+                transaction.onerror = () => reject(transaction.error);
+            });
+        }
+
+        // Get all websites from IndexedDB
+        async function getAllWebsites() {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([WEBSITES_STORE], 'readonly');
+                const store = transaction.objectStore(WEBSITES_STORE);
+                const request = store.getAll();
+                
+                request.onsuccess = () => resolve(request.result || []);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // Get website files
+        async function getWebsiteFiles(id) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([FILES_STORE], 'readonly');
+                const store = transaction.objectStore(FILES_STORE);
+                const request = store.get(id);
+                
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // Delete website from IndexedDB
+        async function deleteWebsiteFromDB(id) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([WEBSITES_STORE, FILES_STORE], 'readwrite');
+                const websiteStore = transaction.objectStore(WEBSITES_STORE);
+                const filesStore = transaction.objectStore(FILES_STORE);
+                
+                websiteStore.delete(id);
+                filesStore.delete(id);
+                
+                transaction.oncomplete = () => resolve(true);
+                transaction.onerror = () => reject(transaction.error);
+            });
+        }
+
+        // Check if URL available
+        async function isUrlAvailable(slug, domain) {
+            const websites = await getAllWebsites();
+            const fullUrl = slug + domain;
+            return !websites.some(w => w.fullUrl === fullUrl);
+        }
+
+        // Read file content
+        function readFileContent(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve({
+                    name: file.name,
+                    content: reader.result,
+                    type: file.type,
+                    size: file.size
+                });
+                reader.onerror = reject;
+                reader.readAsText(file);
+            });
+        }
+
+        // Read binary file (for images, etc)
+        function readBinaryFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve({
+                    name: file.name,
+                    content: reader.result,
+                    type: file.type,
+                    size: file.size,
+                    isBinary: true
+                });
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Handle file selection
+        async function handleFileSelect(files) {
+            selectedFiles = [];
+            selectedFileContents = [];
+            
+            showToast(`📁 Reading ${files.length} files...`, 'info');
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file.type.startsWith('image/') || file.type === 'application/pdf') {
+                    const content = await readBinaryFile(file);
+                    selectedFileContents.push(content);
+                } else {
+                    const content = await readFileContent(file);
+                    selectedFileContents.push(content);
+                }
+                selectedFiles.push(file);
+            }
+            
+            updateFileList();
+            showToast(`✅ ${selectedFiles.length} file(s) loaded! Unlimited size supported.`, 'success');
+        }
+
+        function updateFileList() {
+            const fileListDiv = document.getElementById('fileList');
+            if (selectedFiles.length > 0) {
+                fileListDiv.style.display = 'block';
+                let html = `<strong>📄 Selected Files (${selectedFiles.length} files):</strong><br>`;
+                let totalSize = 0;
+                for (let f of selectedFiles) {
+                    const sizeKB = (f.size / 1024).toFixed(2);
+                    totalSize += f.size;
+                    html += `<span>${f.name} (${sizeKB} KB)</span>`;
+                }
+                const totalMB = (totalSize / (1024 * 1024)).toFixed(2);
+                html += `<br><small style="color: #00d4ff;">Total size: ${totalMB} MB</small>`;
+                fileListDiv.innerHTML = html;
+            } else {
+                fileListDiv.style.display = 'none';
+            }
+        }
+
+        // Get HTML content from files
+        function getHtmlFromFiles(files) {
+            for (let file of files) {
+                if (file.name.endsWith('.html') || file.name.endsWith('.htm')) {
+                    return file.content;
+                }
+            }
+            
+            // Build HTML from CSS and JS
+            let cssContent = '';
+            let jsContent = '';
+            let bodyContent = '';
+            
+            for (let file of files) {
+                if (file.name.endsWith('.css')) {
+                    cssContent = file.content;
+                } else if (file.name.endsWith('.js')) {
+                    jsContent = file.content;
+                } else if (file.name.endsWith('.txt')) {
+                    bodyContent = file.content;
+                }
+            }
+            
+            if (bodyContent) {
+                return `<!DOCTYPE html>
+                <html>
+                <head><meta charset="UTF-8"><title>My Website</title><style>${cssContent}</style></head>
+                <body><pre>${bodyContent}</pre><script>${jsContent}<\/script></body>
+                </html>`;
+            }
+            
+            return `<!DOCTYPE html>
+            <html>
+            <head><meta charset="UTF-8"><title>My Website</title><style>${cssContent}</style></head>
+            <body style="font-family: Arial; padding: 40px; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: white;">
+                <h1>🌐 My Website</h1>
+                <p>Your website is live on Unlimited Host!</p>
+                <p>📁 ${selectedFiles.length} file(s) uploaded</p>
+                <script>${jsContent}<\/script>
+            </body>
+            </html>`;
+        }
+
+        // Load sample template
+        function loadSampleTemplate() {
+            const sampleHtml = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Awesome Website</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            max-width: 500px;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 { color: #667eea; margin-bottom: 20px; font-size: 2.5rem; }
+        p { color: #666; line-height: 1.6; margin-bottom: 20px; }
+        .btn {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s;
+        }
+        .btn:hover { transform: scale(1.05); }
+        .emoji { font-size: 60px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="emoji">🚀✨</div>
+        <h1>Welcome to My Website!</h1>
+        <p>This website is hosted on <strong>Unlimited Host</strong> - No limits on file size!</p>
+        <p>Upload HTML, CSS, JS, images, fonts - any file type!</p>
+        <button class="btn" onclick="alert('Thanks for visiting! 🎉')">Click Me!</button>
+    </div>
+</body>
+</html>`;
+            
+            // Create a fake file
+            const file = new File([sampleHtml], "index.html", {type: "text/html"});
+            handleFileSelect([file]);
+            showToast('✅ Sample template loaded! Ready to publish.', 'success');
+        }
+
+        // Publish website
+        async function publishWebsite() {
+            const slug = document.getElementById('websiteName').value.trim().toLowerCase();
+            const domain = document.getElementById('domainSelect').value;
+            
+            // Validation
+            if (!slug) {
+                showToast('❌ Please enter a website name!', 'error');
+                return;
+            }
+            
+            if (slug.length < 3) {
+                showToast('❌ Website name must be at least 3 characters!', 'error');
+                return;
+            }
+            
+            if (!/^[a-z0-9-]+$/.test(slug)) {
+                showToast('❌ Use only lowercase letters, numbers, and hyphens!', 'error');
+                return;
+            }
+            
+            if (!await isUrlAvailable(slug, domain)) {
+                showToast('❌ This URL is already taken! Please choose another.', 'error');
+                return;
+            }
+            
+            if (selectedFiles.length === 0) {
+                showToast('❌ Please select files or load a sample!', 'error');
+                return;
+            }
+            
+            // Disable button and show progress
+            const publishBtn = document.getElementById('publishBtn');
+            publishBtn.disabled = true;
+            publishBtn.innerHTML = '⏳ PUBLISHING...';
+            
+            const progressDiv = document.getElementById('progressContainer');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const timerDiv = document.getElementById('timer');
+            
+            progressDiv.style.display = 'block';
+            const startTime = Date.now();
+            
+            // Animate progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 3;
+                if (progress <= 100) {
+                    progressFill.style.width = progress + '%';
+                    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                    timerDiv.innerHTML = `⏱️ Time: ${elapsed} seconds`;
+                }
+            }, 200);
+            
+            // Process and save
+            setTimeout(async () => {
+                try {
+                    const siteId = Date.now().toString();
+                    const fullUrl = slug + domain;
+                    const htmlContent = getHtmlFromFiles(selectedFileContents);
+                    
+                    // Save to IndexedDB (NO SIZE LIMIT!)
+                    await saveWebsiteToDB(siteId, slug, domain, fullUrl, selectedFileContents, htmlContent);
+                    
+                    clearInterval(interval);
+                    progressFill.style.width = '100%';
+                    progressText.innerHTML = '✅ Website published successfully!';
+                    const totalTime = Math.floor((Date.now() - startTime) / 1000);
+                    timerDiv.innerHTML = `✅ Done in ${totalTime} seconds!`;
+                    
+                    // Show success card
+                    const baseUrl = window.location.href.split('?')[0].split('#')[0];
+                    const liveUrl = `${baseUrl}?site=${siteId}`;
+                    
+                    const successCard = document.getElementById('successCard');
+                    successCard.style.display = 'block';
+                    successCard.innerHTML = `
+                        <div class="success-card">
+                            <div style="font-size: 60px;">🎉✨</div>
+                            <h2>Website Published Successfully!</h2>
+                            <div class="generated-url">
+                                <strong>🔗 Your Website URL:</strong><br>
+                                <a href="${liveUrl}" target="_blank">${fullUrl}</a><br>
+                                <button class="copy-btn" onclick="copyToClipboard('${liveUrl}')">📋 Copy URL</button>
+                            </div>
+                            <div style="color: #00ff88; margin-top: 10px;">
+                                📁 ${selectedFiles.length} file(s) uploaded | No size limits!
+                            </div>
+                        </div>
+                    `;
+                    
+                    renderWebsites();
+                    
+                    // Reset form
+                    selectedFiles = [];
+                    selectedFileContents = [];
+                    updateFileList();
+                    document.getElementById('websiteName').value = '';
+                    
+                    // Hide success card after 10 seconds
+                    setTimeout(() => {
+                        successCard.style.display = 'none';
+                    }, 10000);
+                    
+                    // Reset button
+                    publishBtn.disabled = false;
+                    publishBtn.innerHTML = '✅ OK - PUBLISH WEBSITE';
+                    
+                    // Hide progress after 2 seconds
+                    setTimeout(() => {
+                        progressDiv.style.display = 'none';
+                        progressFill.style.width = '0%';
+                    }, 2000);
+                    
+                    showToast('🎉 Website published successfully! No limits!', 'success');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    clearInterval(interval);
+                    showToast('❌ Failed to publish website! ' + error.message, 'error');
+                    publishBtn.disabled = false;
+                    publishBtn.innerHTML = '✅ OK - PUBLISH WEBSITE';
+                    progressDiv.style.display = 'none';
+                }
+            }, 2000);
+        }
+
+        // Render websites list
+        async function renderWebsites() {
+            const websites = await getAllWebsites();
+            const container = document.getElementById('websitesList');
+            const baseUrl = window.location.href.split('?')[0].split('#')[0];
+            
+            if (websites.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 60px; background: rgba(255,255,255,0.05); border-radius: 20px;">
+                        <div style="font-size: 64px;">🚀</div>
+                        <h3>No websites yet</h3>
+                        <p>Create your first website using the form above!</p>
+                        <p style="color: #00d4ff; margin-top: 10px;">✨ Unlimited file size! Upload as many files as you want!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            for (const site of websites) {
+                const siteUrl = `${baseUrl}?site=${site.id}`;
+                const filesData = await getWebsiteFiles(site.id);
+                let previewHtml = '<h1>Website</h1>';
+                if (filesData && filesData.htmlContent) {
+                    previewHtml = filesData.htmlContent;
+                } else if (filesData && filesData.files) {
+                    for (let f of filesData.files) {
+                        if (f.name.endsWith('.html')) {
+                            previewHtml = f.content;
+                            break;
+                        }
+                    }
+                }
+                
+                html += `
+                    <div class="site-card">
+                        <h3>🌐 ${site.slug}${site.domain}</h3>
+                        <div class="site-url">
+                            <a href="${siteUrl}" target="_blank" style="color: #00d4ff;">${siteUrl}</a>
+                        </div>
+                        <iframe class="preview-frame" srcdoc="${escapeHtml(previewHtml).replace(/"/g, '&quot;')}"></iframe>
+                        <div style="margin-top: 15px;">
+                            <button class="copy-btn" onclick="window.open('${siteUrl}', '_blank')">🔗 Open</button>
+                            <button class="delete-btn" onclick="deleteWebsite('${site.id}')">🗑️ Delete</button>
+                        </div>
+                        <small style="color: #888;">📅 ${new Date(site.createdAt).toLocaleString()}</small>
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+        }
+
+        // Delete website
+        async function deleteWebsite(id) {
+            if (confirm('⚠️ Are you sure you want to delete this website?\nThis action cannot be undone!')) {
+                await deleteWebsiteFromDB(id);
+                renderWebsites();
+                showToast('✅ Website deleted successfully!', 'success');
+            }
+        }
+
+        // Handle preview
+        async function handlePreview() {
+            const params = new URLSearchParams(window.location.search);
+            const siteId = params.get('site');
+            
+            if (siteId) {
+                const filesData = await getWebsiteFiles(siteId);
+                if (filesData) {
+                    let htmlContent = filesData.htmlContent;
+                    if (!htmlContent && filesData.files) {
+                        for (let f of filesData.files) {
+                            if (f.name.endsWith('.html')) {
+                                htmlContent = f.content;
+                                break;
+                            }
+                        }
+                    }
+                    if (htmlContent) {
+                        document.body.innerHTML = htmlContent;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        // Check URL availability on input
+        document.getElementById('websiteName').addEventListener('input', async function() {
+            const slug = this.value.trim().toLowerCase();
+            const domain = document.getElementById('domainSelect').value;
+            const statusDiv = document.getElementById('urlStatus');
+            
+            if (slug.length >= 3) {
+                if (await isUrlAvailable(slug, domain)) {
+                    statusDiv.innerHTML = '✅ URL available!';
+                    statusDiv.style.color = '#00ff88';
+                } else {
+                    statusDiv.innerHTML = '❌ URL already taken!';
+                    statusDiv.style.color = '#ff5555';
+                }
+            } else if (slug.length > 0) {
+                statusDiv.innerHTML = '⚠️ Minimum 3 characters';
+                statusDiv.style.color = '#ffaa00';
+            } else {
+                statusDiv.innerHTML = '';
+            }
+        });
+
+        // Drag and drop handlers
+        function handleDragOver(e) {
+            e.preventDefault();
+            document.getElementById('uploadArea').classList.add('dragover');
+        }
+        
+        function handleDragLeave(e) {
+            e.preventDefault();
+            document.getElementById('uploadArea').classList.remove('dragover');
+        }
+        
+        function handleDrop(e) {
+            e.preventDefault();
+            document.getElementById('uploadArea').classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            handleFileSelect(files);
+        }
+
+        // Helper functions
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.background = type === 'success' ? '#00ff88' : (type === 'error' ? '#ff5555' : '#00d4ff');
+            toast.style.color = '#000';
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            showToast('✅ URL copied!', 'success');
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        // Create background animation
+        function createBackground() {
+            const container = document.getElementById('bgAnimation');
+            container.innerHTML = '';
+            for (let i = 0; i < 30; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 100 + 20;
+                bubble.style.width = size + 'px';
+                bubble.style.height = size + 'px';
+                bubble.style.left = Math.random() * 100 + '%';
+                bubble.style.top = Math.random() * 100 + '%';
+                bubble.style.animationDelay = Math.random() * 10 + 's';
+                bubble.style.animationDuration = Math.random() * 15 + 10 + 's';
+                container.appendChild(bubble);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async function() {
+            await openDB();
+            if (!await handlePreview()) {
+                await renderWebsites();
+            }
+            createBackground();
+        });
+    </script>
+</body>
+</html>
